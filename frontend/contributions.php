@@ -21,19 +21,21 @@
         <div class="d-flex justify-content-between mb-3">
           <h4>Contributions</h4>
 
-          <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#memberModal">
-            + Add Member
-          </button>
         </div>
 
         <hr>
 
         <!-- SELECT MEMBER -->
         <div class="row mb-3">
-          <div class="col-md-4">
+          <div class="col-md-3 mr-2">
             <select id="memberSelect" class="form-control">
               <option value="">Select Member</option>
             </select>
+          </div>
+          <div class="col-md-2">
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#memberModal">
+              + Add Member
+            </button>
           </div>
         </div>
 
@@ -60,7 +62,7 @@
             <select id="weekSelect" class="form-control"></select>
           </div>
 
-          <div class="col-md-3 d-flex align-items-end">
+          <div class="col-md-1 mt-4 d-flex align-items-end">
             <button class="btn btn-success w-100" onclick="saveContribution()">
               Save
             </button>

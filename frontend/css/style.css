@@ -67,3 +67,24 @@ body {
 #weeksGrid input:not(:checked) {
   accent-color: red;
 }
+
+#weeksGrid label {
+  font-weight: 500;
+}
+
+#weeksGrid label.green {
+  color: green;
+}
+
+#weeksGrid label.red {
+  color: red;
+}
+
+
+.card h3 {
+  font-weight: bold;
+}
+
+.card small {
+  color: #777;
+}

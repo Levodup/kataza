@@ -1,3 +1,5 @@
+// frontend/js/contributions.js
+
 const API = "../backend/api/";
 
 let members = [];
@@ -7,22 +9,21 @@ let members = [];
 ========================= */
 function loadMembers() {
   fetch(API + "members.php")
-    .then(res => res.json())
-    .then(res => {
-
-      let data = res.data || res;
+    .then((res) => res.json())
+    .then((res) => {
+      const data = res.data || res;
 
       members = data;
 
       let options = `<option value="">Select Member</option>`;
 
-      data.forEach(m => {
+      data.forEach((m) => {
         options += `<option value="${m.id}">${m.name}</option>`;
       });
 
       document.getElementById("memberSelect").innerHTML = options;
     })
-    .catch(err => {
+    .catch((err) => {
       console.error(err);
       alert("Failed to load members");
     });
@@ -32,67 +33,97 @@ function loadMembers() {
    ON MEMBER SELECT
 ========================= */
 document.addEventListener("DOMContentLoaded", () => {
-
   loadMembers();
 
-  document.getElementById("memberSelect").addEventListener("change", function () {
+  document
+    .getElementById("memberSelect")
+    .addEventListener("change", function () {
+      let memberId = this.value;
+      if (!memberId) return;
 
-    let memberId = this.value;
+      /* ❌ BROKEN BEFORE:
+       If member not found → JS crash → grid never renders
+    */
+      let selected = members.find((m) => m.id == memberId);
 
-    if (!memberId) return;
+      if (!selected) {
+        console.error("Member not found");
+        return;
+      }
 
-    // Set member name
-    let selected = members.find(m => m.id == memberId);
-    document.getElementById("memberName").value = selected.name;
+      document.getElementById("memberName").value = selected.name;
 
-    // Load contribution details
-    fetch(API + "contribution_details.php?member_id=" + memberId)
-      .then(res => res.json())
-      .then(res => {
+      fetch(API + "contribution_details.php?member_id=" + memberId)
+        .then((res) => res.json())
+        .then((res) => {
+          console.log("API response:", res); // DEBUG (helps detect API mismatch)
 
-        if (!res.status) {
-          alert(res.message);
-          return;
-        }
+          if (!res.status) {
+            alert(res.message);
+            return;
+          }
 
-        let data = res.data;
+          let data = res.data || {};
 
-        // Last contribution
-        document.getElementById("lastAmount").value = data.last ? data.last.amount : 0;
+          // Last contribution
+          document.getElementById("lastAmount").value = data.last
+            ? data.last.amount
+            : 0;
 
-        // Weeks dropdown
-        let weekOptions = '';
-        data.availableWeeks.forEach(w => {
-          weekOptions += `<option value="${w}">Week ${w}</option>`;
+          /* ❌ BROKEN BEFORE:
+           You used data.availableWeeks (which no longer exists)
+           → JS error → stops execution → grid not displayed
+        */
+
+          /* ✅ FIX:
+           Build week dropdown using weeksStatus
+        */
+          let weekOptions = "";
+
+          for (let i = 1; i <= 52; i++) {
+            // show week if:
+            // not recorded OR deleted
+            if (!data.weeksStatus?.[i] || data.weeksStatus[i] === 2) {
+              weekOptions += `<option value="${i}">Week ${i}</option>`;
+            }
+          }
+
+          document.getElementById("weekSelect").innerHTML = weekOptions;
+
+          renderWeeksGrid(data.weeksStatus);
+        })
+        .catch((err) => {
+          console.error(err);
+          alert("Failed to load contribution details");
         });
-
-        document.getElementById("weekSelect").innerHTML = weekOptions;
-
-        renderWeeksGrid(data.paidWeeks);
-      });
-  });
+    });
 });
 
 /* =========================
    RENDER WEEK GRID
 ========================= */
-function renderWeeksGrid(paidWeeks) {
+function renderWeeksGrid(weeksStatus = {}) {
+  // ❌ BROKEN BEFORE:
+  // if weeksStatus undefined → crash → nothing displays
 
   let currentWeek = getCurrentWeek();
-  let html = '';
+  let html = "";
 
   for (let i = 1; i <= 52; i++) {
+    let status = weeksStatus[i]; // 1, 2, or undefined
 
-    let checked = paidWeeks.includes(i) ? 'checked' : '';
-    let disabled = i > currentWeek ? 'disabled' : '';
+    let checked = status === 1 ? "checked" : "";
+    let color = status === 2 ? "red" : status === 1 ? "green" : "";
+
+    let disabled = i > currentWeek ? "disabled" : "";
 
     html += `
       <div style="width:80px;">
-        <label>
+        <label style="color:${color}">
           <input 
-            type="checkbox" 
+            type="checkbox"
             data-week="${i}"
-            ${checked} 
+            ${checked}
             ${disabled}
             onchange="toggleWeek(this)"
           >
@@ -109,7 +140,6 @@ function renderWeeksGrid(paidWeeks) {
    SAVE CONTRIBUTION
 ========================= */
 function saveContribution() {
-
   let memberId = document.getElementById("memberSelect").value;
   let amount = document.getElementById("newAmount").value;
   let week = document.getElementById("weekSelect").value;
@@ -122,61 +152,72 @@ function saveContribution() {
   fetch(API + "contributions.php", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify([{
-      member_id: memberId,
-      amount: amount,
-      week: week,
-      year: new Date().getFullYear(),
-      paid: 1
-    }])
+    body: JSON.stringify([
+      {
+        member_id: memberId,
+        amount: amount,
+        week: week,
+        year: new Date().getFullYear(),
+        paid: 1,
+      },
+    ]),
   })
-  .then(res => res.json())
-  .then(res => {
+    .then((res) => res.json())
+    .then((res) => {
+      if (!res.status) {
+        alert(res.message);
+        return;
+      }
 
-    if (!res.status) {
-      alert(res.message);
-      return;
-    }
+      alert("Saved");
 
-    alert("Saved");
-
-    // Reload member data
-    document.getElementById("memberSelect").dispatchEvent(new Event("change"));
-  });
+      // reload UI
+      document
+        .getElementById("memberSelect")
+        .dispatchEvent(new Event("change"));
+    })
+    .catch((err) => {
+      console.error(err);
+      alert("Error saving contribution");
+    });
 }
 
 /* =========================
    ADD MEMBER
 ========================= */
 function addMember() {
-
   let name = document.getElementById("name").value;
   let phone = document.getElementById("phone").value;
 
   fetch(API + "members.php", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify({ name, phone })
+    body: JSON.stringify({ name, phone }),
   })
-  .then(res => res.json())
-  .then(res => {
+    .then((res) => res.json())
+    .then((res) => {
+      if (!res.status) {
+        alert(res.message);
+        return;
+      }
 
-    if (!res.status) {
-      alert(res.message);
-      return;
-    }
+      alert("Member added");
 
-    alert("Member added");
+      loadMembers();
 
-    loadMembers();
-
-    let modal = bootstrap.Modal.getInstance(document.getElementById('memberModal'));
-    modal.hide();
-  });
+      let modal = bootstrap.Modal.getInstance(
+        document.getElementById("memberModal"),
+      );
+      modal.hide();
+    })
+    .catch((err) => {
+      console.error(err);
+      alert("Error adding member");
+    });
 }
 
 /* =========================
@@ -192,52 +233,46 @@ function getCurrentWeek() {
 /* =========================
    TOGGLE WEEK PAYMENT
 ========================= */
-
 function toggleWeek(checkbox) {
-
   let memberId = document.getElementById("memberSelect").value;
   let amount = document.getElementById("lastAmount").value;
   let week = checkbox.dataset.week;
-  let checked = checkbox.checked ? 1 : 0;
 
-  if (!memberId) {
-    alert("Select a member first");
-    checkbox.checked = !checkbox.checked;
-    return;
-  }
+  let checked = checkbox.checked ? 1 : 0;
 
   fetch(API + "contributions.php", {
     method: "PUT",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
       member_id: memberId,
       week: week,
       year: new Date().getFullYear(),
       amount: amount,
-      checked: checked
+      checked: checked,
+    }),
+  })
+    .then((res) => res.json())
+    .then((res) => {
+      if (!res.status) {
+        alert("Failed");
+        checkbox.checked = !checkbox.checked;
+        return;
+      }
+
+      // Live color update
+      let label = checkbox.parentElement;
+
+      if (checked) {
+        label.style.color = "green";
+      } else {
+        label.style.color = "red";
+      }
     })
-  })
-  .then(res => res.json())
-  .then(res => {
-
-    if (!res.status) {
-      alert("Operation failed");
+    .catch((err) => {
+      console.error(err);
       checkbox.checked = !checkbox.checked;
-      return;
-    }
-
-    // Optional: visual feedback
-    if (checked) {
-      checkbox.parentElement.style.color = "green";
-    } else {
-      checkbox.parentElement.style.color = "red";
-    }
-
-  })
-  .catch(() => {
-    checkbox.checked = !checkbox.checked;
-    alert("Error occurred");
-  });
+      alert("Error updating week");
+    });
 }
