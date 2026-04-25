@@ -41,6 +41,11 @@
         <div class="row mb-3">
 
           <div class="col-md-3">
+            <label>Member</label>
+            <input id="memberName" class="form-control" disabled>
+          </div>
+
+          <div class="col-md-3">
             <label>Last Contribution</label>
             <input id="lastAmount" class="form-control" disabled>
           </div>
@@ -73,6 +78,29 @@
     </div>
   </div>
 
+  <!-- ADD MEMBER MODAL -->
+  <div class="modal fade" id="memberModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5>Add Member</h5>
+        </div>
+
+        <div class="modal-body">
+          <input id="name" class="form-control mb-2" placeholder="Name">
+          <input id="phone" class="form-control" placeholder="Phone">
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-primary" onclick="addMember()">Save</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/contributions.js"></script>
 </body>
 
 </html>
