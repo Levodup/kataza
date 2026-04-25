@@ -1,0 +1,61 @@
+/* Layout */
+body {
+  overflow-x: hidden;
+  background-color: #f5f7fb;
+  font-family: Arial, sans-serif;
+}
+
+/* Sidebar */
+.sidebar {
+  height: 100vh;
+  background: linear-gradient(180deg, #0d6efd, #0b5ed7);
+  color: white;
+  padding: 20px;
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+/* Content */
+.content {
+  padding: 20px;
+}
+
+/* Cards */
+.card-box {
+  min-height: 120px;
+  border-radius: 12px;
+  transition: 0.3s;
+}
+
+.card-box:hover {
+  transform: translateY(-3px);
+}
+
+/* Table */
+.table {
+  background: white;
+}
+
+/* Modal */
+.modal-content {
+  border-radius: 12px;
+}
+
+/* Responsive tweak */
+@media (max-width: 768px) {
+  .sidebar {
+    height: auto;
+  }
+}
+.nav-link {
+    transition: 0.2s;
+}
+
+.nav-link:hover {
+    background: rgba(255,255,255,0.2);
+    border-radius: 6px;
+}
