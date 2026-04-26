@@ -44,6 +44,11 @@
               + Add Member
             </button>
           </div>
+          <div class="col-md-2">
+            <button class="btn btn-info mb-3" data-bs-toggle="modal" data-bs-target="#proofModal">
+              + Proof of Contribution
+            </button>
+          </div>
         </div>
 
         <!-- CONTRIBUTION INPUT -->
@@ -108,6 +113,63 @@
       </div>
     </div>
   </div>
+
+  <!-- PROOF OF CONTRIBUTION MODAL -->
+  <div class="modal fade" id="proofModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5>Proof of Contribution</h5>
+        </div>
+
+        <div class="modal-body">
+
+          <!-- Member -->
+          <select id="proofMember" class="form-control mb-2"></select>
+
+          <!-- Amount -->
+          <input id="proofAmount" class="form-control mb-2" placeholder="Amount">
+
+          <!-- Ref -->
+          <input id="proofRef" class="form-control mb-2" placeholder="Reference ID">
+
+          <!-- Type -->
+          <select id="proofType" class="form-control mb-2">
+            <option value="1">Week</option>
+            <option value="2">Month</option>
+            <option value="3">Pay Loan</option>
+            <option value="4">Loan + Week</option>
+            <option value="5">Loan + Month</option>
+          </select>
+
+          <!-- Weeks Covered -->
+          <input id="weeksCovered" class="form-control mb-2" placeholder="Weeks Covered">
+
+          <!-- Payment Mode -->
+          <select id="paymentMode" class="form-control">
+            <option value="1">Agent</option>
+            <option value="2">MoMo</option>
+            <option value="3">App</option>
+            <option value="4">Someone paid</option>
+            <option value="5">Bulk payment</option>
+          </select>
+
+          <!-- Payment Date & Time -->
+          <div class="mb-2">
+            <label>Payment Date & Time</label>
+            <input type="datetime-local" id="paymentDatetime" class="form-control">
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-success" onclick="saveProof()">Save</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/contributions.js"></script>
 </body>

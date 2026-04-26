@@ -276,3 +276,98 @@ function toggleWeek(checkbox) {
       alert("Error updating week");
     });
 }
+
+function loadProofMembers() {
+  fetch(API + "members.php")
+    .then((res) => res.json())
+    .then((res) => {
+      console.log("Members:", res);
+
+      let data = res.data || res;
+
+      if (!Array.isArray(data)) return;
+
+      let options = '<option value="">Select Member</option>';
+
+      data.forEach((m) => {
+        options += `<option value="${m.id}">${m.name}</option>`;
+      });
+
+      document.getElementById("proofMember").innerHTML = options;
+    })
+    .catch((err) => console.error(err));
+}
+
+// When proof modal opens, load members and set current datetime
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  const modal = document.getElementById("proofModal");
+
+  if (!modal) return; // safety
+
+  modal.addEventListener("shown.bs.modal", () => {
+
+    // Load members
+    loadProofMembers();
+
+    // Set current datetime
+    let now = new Date();
+    let formatted = now.toISOString().slice(0, 16);
+
+    document.getElementById("paymentDatetime").value = formatted;
+  });
+
+});
+
+document.getElementById("proofType").addEventListener("change", function () {
+  let type = this.value;
+
+  let weeks = 1;
+
+  if (type == 2 || type == 5) {
+    weeks = 4; // month
+  }
+
+  document.getElementById("weeksCovered").value = weeks;
+});
+
+function saveProof() {
+  let payload = {
+    member_id: document.getElementById("proofMember").value,
+    amount: document.getElementById("proofAmount").value,
+    ref_id: document.getElementById("proofRef").value,
+    payment_type: document.getElementById("proofType").value,
+    weeks_covered: document.getElementById("weeksCovered").value,
+    payment_mode: document.getElementById("paymentMode").value,
+    payment_datetime: document.getElementById("paymentDatetime").value,
+  };
+
+  fetch(API + "proof.php", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  })
+    .then((res) => res.json())
+    .then((res) => {
+      if (!res.status) {
+        alert("Failed");
+        return;
+      }
+
+      alert("Saved");
+
+      let modal = bootstrap.Modal.getInstance(
+        document.getElementById("proofModal"),
+      );
+      modal.hide();
+    });
+
+  function formatDate(date) {
+    if (!date) return "-";
+
+    let d = new Date(date);
+
+    return d.toLocaleString();
+  }
+}

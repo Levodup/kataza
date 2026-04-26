@@ -117,3 +117,50 @@ body {
   height: 130px;
 
 }
+
+td:not(:empty) {
+  background: #d1f7d1;
+}
+
+#reportTable td {
+  text-align: center;
+  font-size: 12px;
+}
+
+#reportTable td:not(:empty) {
+  background: #e6ffe6;
+}
+
+#reportTable th {
+  text-align: center;
+}
+
+#reportTable th, #reportTable td {
+  text-align: center;
+  font-size: 12px;
+}
+
+#reportTable td:not(:empty) {
+  background: #e6ffe6;
+}
+
+.table-warning {
+  font-weight: bold;
+}
+
+.table-dark td {
+  color: #fff;
+  font-weight: bold;
+}
+
+.table-warning {
+  background: #fff3cd !important;
+}
+
+#reportTable td:first-child,
+#reportTable th:first-child {
+  position: sticky;
+  left: 0;
+  background: #fff;
+  z-index: 2;
+}

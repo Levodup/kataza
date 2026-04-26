@@ -40,7 +40,7 @@ $current = basename($_SERVER['PHP_SELF']);
     </li>
 
     <li class="nav-item mb-2">
-      <a class="nav-link text-white <?= $current == 'loans.php' ? 'fw-bold' : '' ?>" href="loans.php">
+      <a class="nav-link text-white <?= $current == 'report.php' ? 'fw-bold' : '' ?>" href="report.php">
         <!-- emoji for Reports -->
         📈 Reports
       </a>
