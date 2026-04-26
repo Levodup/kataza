@@ -3,8 +3,11 @@ $current = basename($_SERVER['PHP_SELF']);
 ?>
 
 <div class="col-md-2 sidebar">
-  <div class="logo mb-4">
-    🦁 Kataza
+  <div class="logo mb-4 text-center">
+    <div class="pentagons-logo">
+      <img src="../assets/logo.png" width="120" alt="Kataza Logo" class="img-fluid">
+    </div>
+    <!-- <div class="mt-2 fw-bold text-white">Kataza</div> -->
   </div>
 
   <hr>
