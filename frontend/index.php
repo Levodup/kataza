@@ -11,7 +11,7 @@
 
   <meta name="theme-color" content="#0d6efd">
   <title>Kataza Dashboard</title>
-
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="css/style.css" rel="stylesheet">
 </head>
@@ -52,8 +52,48 @@
           </div>
         </div>
 
+        <div class="col-md-3">
+          <div class="card p-3 text-center">
+            <h5>Total Contributions</h5>
+            <h3 id="totalContributions" class="text-success"></h3>
+          </div>
+        </div>
+  
+        <div class="col-md-3">
+          <div class="card p-3 text-center">
+            <h5>Total Expenses</h5>
+            <h3 id="totalExpenses" class="text-danger"></h3>
+          </div>
+        </div>
+  
+        <div class="col-md-3">
+          <div class="card p-3 text-center">
+            <h5>Net Savings</h5>
+            <h3 id="netSavings" class="text-primary"></h3>
+          </div>
+        </div>
+  
+        <div class="col-md-3">
+          <div class="card p-3 text-center">
+            <h5>Loans Given</h5>
+            <h3 id="totalLoans"></h3>
+          </div>
+        </div>
+  
+        <br>
+  
+        <div class="card p-3">
+          <h5>Progress</h5>
+          <div class="progress">
+            <div id="progressBar" class="progress-bar bg-success"></div>
+          </div>
+        </div>
+  
+        <canvas id="growthChart"></canvas>
       </div>
+
     </div>
+
   </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 

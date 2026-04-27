@@ -33,7 +33,7 @@ $current = basename($_SERVER['PHP_SELF']);
     </li>
 
     <li class="nav-item mb-2">
-      <a class="nav-link text-white <?= $current == 'loans.php' ? 'fw-bold' : '' ?>" href="loans.php">
+      <a class="nav-link text-white <?= $current == 'expenses.php' ? 'fw-bold' : '' ?>" href="expenses.php">
         <!-- emoji for usages -->
         🛒 Expenses
       </a>
