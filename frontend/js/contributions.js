@@ -91,6 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
           document.getElementById("weekSelect").innerHTML = weekOptions;
 
           renderWeeksGrid(data.weeksStatus);
+          loadProof(memberId);
         })
         .catch((err) => {
           console.error(err);
@@ -301,13 +302,11 @@ function loadProofMembers() {
 // When proof modal opens, load members and set current datetime
 
 document.addEventListener("DOMContentLoaded", () => {
-
   const modal = document.getElementById("proofModal");
 
   if (!modal) return; // safety
 
   modal.addEventListener("shown.bs.modal", () => {
-
     // Load members
     loadProofMembers();
 
@@ -317,7 +316,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.getElementById("paymentDatetime").value = formatted;
   });
-
 });
 
 document.getElementById("proofType").addEventListener("change", function () {
@@ -361,13 +359,66 @@ function saveProof() {
         document.getElementById("proofModal"),
       );
       modal.hide();
+
+      let memberId = document.getElementById("memberSelect").value;
+      if (memberId) loadProof(memberId);
     });
+}
 
-  function formatDate(date) {
-    if (!date) return "-";
+function loadProof(memberId) {
+  fetch(API + "proof.php?member_id=" + memberId)
+    .then((res) => res.json())
+    .then((res) => {
+      if (!res.status) return;
 
-    let d = new Date(date);
+      let html = "";
 
-    return d.toLocaleString();
-  }
+      res.data.forEach((p) => {
+        html += `
+          <tr>
+            <td>${p.ref_id || "-"}</td>
+            <td>${Number(p.amount).toLocaleString()}</td>
+            <td>${getType(p.payment_type)}</td>
+            <td>${p.weeks_covered}</td>
+            <td>${getMode(p.payment_mode)}</td>
+            <td>${formatDate(p.payment_datetime)}</td>
+          </tr>
+        `;
+      });
+
+      if (!res.data.length) {
+        html = `<tr><td colspan="6" class="text-center">No payments</td></tr>`;
+      }
+      document.querySelector("#proofTable tbody").innerHTML = html;
+    })
+    .catch((err) => console.error(err));
+}
+
+function getType(t) {
+  return (
+    {
+      1: "Week",
+      2: "Month",
+      3: "Loan",
+      4: "Loan + Week",
+      5: "Loan + Month",
+    }[t] || "-"
+  );
+}
+
+function getMode(m) {
+  return (
+    {
+      1: "Agent",
+      2: "MoMo",
+      3: "App",
+      4: "Someone",
+      5: "Bulk",
+    }[m] || "-"
+  );
+}
+
+function formatDate(d) {
+  if (!d) return "-";
+  return new Date(d).toLocaleString();
 }

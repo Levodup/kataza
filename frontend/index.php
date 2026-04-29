@@ -37,46 +37,49 @@
         <hr>
 
         <!-- YOUR CARDS + TABLE HERE -->
-
-        <div class="col-md-3">
-          <div class="card p-3 text-center">
-
-            <h3 id="expectedYearAmount" style="color:green;"></h3>
-
-            <h5 id="weeksLeft" style="color:blue;"></h5>
-
-            <small>Started: 05-01-2026</small>
-
-            <h4 class="mt-2 text-dark">Amount Expected this Year</h4>
-
-          </div>
-        </div>
-
-        <div class="col-md-3">
-          <div class="card p-3 text-center">
-            <h5>Total Contributions</h5>
-            <h3 id="totalContributions" class="text-success"></h3>
-          </div>
-        </div>
-  
-        <div class="col-md-3">
-          <div class="card p-3 text-center">
-            <h5>Total Expenses</h5>
-            <h3 id="totalExpenses" class="text-danger"></h3>
-          </div>
-        </div>
-  
-        <div class="col-md-3">
-          <div class="card p-3 text-center">
-            <h5>Net Savings</h5>
-            <h3 id="netSavings" class="text-primary"></h3>
-          </div>
-        </div>
-  
-        <div class="col-md-3">
-          <div class="card p-3 text-center">
-            <h5>Loans Given</h5>
-            <h3 id="totalLoans"></h3>
+        <div class="card">
+          <div class="row p-3">
+            <div class="col-md-3">
+              <div class="card p-3 text-center">
+    
+                <h3 id="expectedYearAmount" style="color:green;"></h3>
+    
+                <h5 id="weeksLeft" style="color:blue;"></h5>
+    
+                <small>Started: 05-01-2026</small>
+    
+                <h4 class="mt-2 text-dark">Amount Expected this Year</h4>
+    
+              </div>
+            </div>
+    
+            <div class="col-md-2">
+              <div class="card p-3 text-center">
+                <h5>Total Contributions</h5>
+                <h3 id="totalContributions" class="text-success"></h3>
+              </div>
+            </div>
+      
+            <div class="col-md-2">
+              <div class="card p-3 text-center">
+                <h5>Total Expenses</h5>
+                <h3 id="totalExpenses" class="text-danger"></h3>
+              </div>
+            </div>
+      
+            <div class="col-md-2">
+              <div class="card p-3 text-center">
+                <h5>Net Savings</h5>
+                <h3 id="netSavings" class="text-primary"></h3>
+              </div>
+            </div>
+      
+            <div class="col-md-2">
+              <div class="card p-3 text-center">
+                <h5>Loans Given</h5>
+                <h3 id="totalLoans"></h3>
+              </div>
+            </div>
           </div>
         </div>
   

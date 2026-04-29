@@ -88,6 +88,24 @@
           <div id="weeksGrid" class="d-flex flex-wrap"></div>
         </div>
 
+        <!-- PROOF OF PAYMENTS -->
+        <div class="card mt-3 p-3">
+          <h5>Proof of Payments</h5>
+
+          <table class="table table-sm table-bordered" id="proofTable">
+            <thead>
+              <tr>
+                <th>Ref</th>
+                <th>Amount</th>
+                <th>Type</th>
+                <th>Weeks</th>
+                <th>Mode</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
