@@ -1,30 +1,121 @@
-/* Layout */
+/* =========================
+   BASE LAYOUT
+========================= */
 body {
   overflow-x: hidden;
   background-color: #f5f7fb;
   font-family: Arial, sans-serif;
 }
 
-/* Sidebar */
+/* =========================
+   SIDEBAR (GRADIENT)
+========================= */
 .sidebar {
   height: 100vh;
-  background: linear-gradient(180deg, #0d6efd, #0b5ed7);
   color: white;
   padding: 20px;
+  position: relative;
+  overflow: hidden;
+
+  background: linear-gradient(
+    180deg,
+    #001f3f 0%,   /* navy */
+    #0d6efd 50%,  /* blue */
+    #87ceeb 100%  /* sky blue */
+  );
 }
 
+/* =========================
+   PENTAGON BACKGROUND
+========================= */
+.pentagon-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+/* Pentagon base */
+.penta {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  background: rgba(255,255,255,0.08);
+
+  clip-path: polygon(
+    50% 0%,
+    100% 38%,
+    82% 100%,
+    18% 100%,
+    0% 38%
+  );
+}
+
+/* Flat pentagons */
+.p1 { top: 60px; left: 20px; }
+.p2 { top: 200px; left: 120px; width: 80px; height: 80px; }
+.p3 { top: 350px; left: 40px; width: 60px; height: 60px; }
+
+/* Shadow pentagons */
+.shadow {
+  background: rgba(255,255,255,0.12);
+  filter: drop-shadow(0 6px 12px rgba(0,0,0,0.3));
+}
+
+.p4 { top: 120px; left: 160px; }
+.p5 { top: 260px; left: 80px; width: 70px; height: 70px; }
+
+/* Keep content above background */
+.sidebar > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* =========================
+   SIDEBAR LINKS
+========================= */
+.sidebar-link {
+  color: #fff;
+  border-radius: 8px;
+  padding: 10px 12px;
+  transition: all 0.3s ease;
+}
+
+.sidebar-link:hover {
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+}
+
+.sidebar-link.active {
+  background: rgba(255,255,255,0.25);
+  font-weight: bold;
+}
+
+/* =========================
+   LOGO
+========================= */
 .logo {
   font-size: 22px;
   font-weight: bold;
   letter-spacing: 1px;
 }
 
-/* Content */
+.pentagons-logo {
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  margin: auto;
+  overflow: hidden;
+  height: 130px;
+}
+
+/* =========================
+   CONTENT
+========================= */
 .content {
   padding: 20px;
 }
 
-/* Cards */
+/* =========================
+   CARDS
+========================= */
 .card-box {
   min-height: 120px;
   border-radius: 12px;
@@ -35,22 +126,31 @@ body {
   transform: translateY(-3px);
 }
 
-/* Table */
+.card h3 {
+  font-weight: bold;
+}
+
+.card small {
+  color: #777;
+}
+
+/* =========================
+   TABLES
+========================= */
 .table {
   background: white;
 }
 
-/* Modal */
+/* =========================
+   MODAL
+========================= */
 .modal-content {
   border-radius: 12px;
 }
 
-/* Responsive tweak */
-@media (max-width: 768px) {
-  .sidebar {
-    height: auto;
-  }
-}
+/* =========================
+   NAV LINKS (GENERIC)
+========================= */
 .nav-link {
   transition: 0.2s;
 }
@@ -60,14 +160,9 @@ body {
   border-radius: 6px;
 }
 
-#weeksGrid input:checked + label {
-  color: green;
-}
-
-#weeksGrid input:not(:checked) {
-  accent-color: red;
-}
-
+/* =========================
+   WEEKS GRID
+========================= */
 #weeksGrid label {
   font-weight: 500;
 }
@@ -80,48 +175,14 @@ body {
   color: red;
 }
 
-
-.card h3 {
-  font-weight: bold;
+#weeksGrid input:not(:checked) {
+  accent-color: red;
 }
 
-.card small {
-  color: #777;
-}
-
-.pentagon-logo {
-  width: 180px;
-  height: 80px;
-  margin: auto;
-  overflow: hidden;
-  clip-path: polygon(
-    50% 0%,   /* top */
-    100% 38%, /* right top */
-    82% 100%, /* right bottom */
-    18% 100%, /* left bottom */
-    0% 38%    /* left top */
-  );
-  background: #0d6efd; /* fallback color */
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-}
-
-.pentagon-logo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.pentagons-logo {
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-  margin: auto;
-  overflow: hidden;
-  height: 130px;
-
-}
-
-td:not(:empty) {
-  background: #d1f7d1;
-}
-
+/* =========================
+   REPORT TABLE
+========================= */
+#reportTable th,
 #reportTable td {
   text-align: center;
   font-size: 12px;
@@ -131,21 +192,9 @@ td:not(:empty) {
   background: #e6ffe6;
 }
 
-#reportTable th {
-  text-align: center;
-}
-
-#reportTable th, #reportTable td {
-  text-align: center;
-  font-size: 12px;
-}
-
-#reportTable td:not(:empty) {
-  background: #e6ffe6;
-}
-
 .table-warning {
   font-weight: bold;
+  background: #fff3cd !important;
 }
 
 .table-dark td {
@@ -153,14 +202,20 @@ td:not(:empty) {
   font-weight: bold;
 }
 
-.table-warning {
-  background: #fff3cd !important;
-}
-
+/* Sticky first column */
 #reportTable td:first-child,
 #reportTable th:first-child {
   position: sticky;
   left: 0;
   background: #fff;
   z-index: 2;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width: 768px) {
+  .sidebar {
+    height: auto;
+  }
 }
