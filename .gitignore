@@ -19,3 +19,7 @@ Gemfile.lock
 
 backend/
 traches/
+docs/
+db/
+config.bat
+node_modules
