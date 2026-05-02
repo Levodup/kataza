@@ -3,7 +3,7 @@ $current = basename($_SERVER['PHP_SELF']);
 ?>
 
 <div class="col-md-2 sidebar d-flex flex-column">
-    <div class="pentagon-bg">
+  <div class="pentagon-bg">
     <span class="penta p1 shadow"></span>
     <span class="penta p2 shadow"></span>
     <span class="penta p2"></span>
@@ -53,10 +53,36 @@ $current = basename($_SERVER['PHP_SELF']);
     </li>
 
     <li class="nav-item mb-2">
-      <a class="nav-link text-white <?= $current == 'report.php' ? 'fw-bold' : '' ?>" href="report.php">
-        <!-- emoji for Reports -->
+
+      <a class="nav-link text-white d-flex justify-content-between align-items-center"
+        data-bs-toggle="collapse"
+        href="#reportMenu">
+
         📈 Reports
+        <span>▼</span>
       </a>
+
+      <div class="collapse <?= in_array($current, ['report.php', 'proof_report.php']) ? 'show' : '' ?>" id="reportMenu">
+
+        <ul class="nav flex-column ms-3 mt-2">
+
+          <li class="nav-item">
+            <a class="nav-link text-white <?= $current == 'report.php' ? 'fw-bold' : '' ?>"
+              href="report.php">
+              📊 Contributions
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link text-white <?= $current == 'proof_report.php' ? 'fw-bold' : '' ?>"
+              href="proof_report.php">
+              🧾 Proof of Contribution
+            </a>
+          </li>
+
+        </ul>
+
+      </div>
     </li>
   </ul>
   <div class="pentagon-bg">
