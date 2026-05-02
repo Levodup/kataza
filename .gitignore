@@ -19,3 +19,5 @@ Gemfile.lock
 
 backend/
 traches/
+docs/
+db/
